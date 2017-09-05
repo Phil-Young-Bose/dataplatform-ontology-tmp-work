@@ -1,0 +1,3 @@
+[submodule "interface_repository/submodules/bose-apis"]
+	path = interface_repository/submodules/bose-apis
+	url = https://github.com/BoseCorp/bose-apis.git

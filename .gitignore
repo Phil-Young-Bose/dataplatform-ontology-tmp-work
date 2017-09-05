@@ -1,0 +1,8 @@
+*~
+
+# Things that are created dynamically (e.g. downloads) go here
+tmp/*
+
+scripts/dump.rdb
+
+
