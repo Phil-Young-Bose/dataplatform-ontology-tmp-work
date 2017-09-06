@@ -1,0 +1,60 @@
+insert
+
+organization sub entity
+	has name
+	plays owner
+	plays employer;
+
+platform sub entity
+	has name
+	has description
+	has url
+	plays owned-by
+	plays producer;
+
+dataset sub entity
+	has name
+	has description
+	has created
+	has updated
+	has format
+	has location
+	has url
+	plays owned-by
+	plays produced-by;
+
+person sub entity
+	has name
+	plays employee
+	plays owner;
+
+
+#Relations
+
+employment sub relation
+	relates employer
+	relates employee;
+
+ownership sub relation
+	relates owner
+	relates owned-by;
+
+produces sub relation
+	relates producer
+	relates produced-by;
+
+#Roles 
+employee sub role;
+employer sub role;
+owner sub role;
+owned-by sub role;
+producer sub role;
+produced-by sub role;
+
+#Resources
+description sub resource datatype string;
+created sub resource datatype string;
+updated sub resource datatype string;
+format sub resource datatype string;
+location sub resource datatype string;
+url sub resource datatype string;

@@ -1,0 +1,9 @@
+insert
+	$a isa dataset, has name "Marge";
+	$b isa platform, has name "CIP";
+	$c isa organization, has name "CIS";
+	$d isa person, has name "John DeRaismes";
+	(owned-by: $a, owner: $d) isa ownership;
+	(employee: $d, employer: $c) isa employment;
+	(owned-by: $b, owner: $c) isa ownership;
+	(producer: $b, produced-by: $a) isa produces;

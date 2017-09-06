@@ -1,0 +1,22 @@
+insert
+	
+	ds sub entity
+		has name
+		plays source
+		plays destination;
+
+	name sub resource datatype string;
+
+	process sub relation
+		relates source
+		relates destination;
+
+	source sub role;
+	destination sub role;
+
+	$x isa ds, has name "ds1";
+	$y isa ds, has name "ds2";
+	$z isa ds, has name "ds3";
+	$a isa ds, has name "ds4";
+	(source: $x, source: $y, source: $z, destination: $a) isa process;
+#	(source: $y, destination: $z) isa process;
