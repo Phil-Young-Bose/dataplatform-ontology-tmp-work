@@ -10,8 +10,19 @@ platform sub entity
 	has description
 	has url
 	plays owned-by
-	plays producer;
+	plays platform-has-environment;
 
+environment sub entity
+	has name
+	plays environment-has-platform
+	plays environment-has-tool;
+
+tool sub entity
+	has name
+	plays source
+	plays destination
+	plays tool-has-environment;
+	
 dataset sub entity
 	has name
 	has description
@@ -21,16 +32,15 @@ dataset sub entity
 	has location
 	has url
 	plays owned-by
-	plays produced-by;
+	plays source
+	plays destination;
 
 person sub entity
 	has name
 	plays employee
 	plays owner;
 
-
 #Relations
-
 employment sub relation
 	relates employer
 	relates employee;
@@ -43,15 +53,35 @@ produces sub relation
 	relates producer
 	relates produced-by;
 
+process sub relation
+	relates source
+	relates destination;
+
+platform-environment sub relation
+	relates platform-has-environment
+	relates environment-has-platform;
+
+environment-tool sub relation
+	relates environment-has-tool
+	relates tool-has-environment;
+
 #Roles 
+
 employee sub role;
 employer sub role;
 owner sub role;
 owned-by sub role;
 producer sub role;
 produced-by sub role;
+source sub role;
+destination sub role;
+platform-has-environment sub role;
+environment-has-platform sub role;
+tool-has-environment sub role;
+environment-has-tool sub role;
 
 #Resources
+name sub resource datatype string;
 description sub resource datatype string;
 created sub resource datatype string;
 updated sub resource datatype string;
