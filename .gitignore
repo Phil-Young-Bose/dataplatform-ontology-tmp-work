@@ -4,4 +4,4 @@
 tmp/*
 
 **/dump.rdb
-
+**/appendonly.aof

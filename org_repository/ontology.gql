@@ -49,10 +49,6 @@ ownership sub relation
 	relates owner
 	relates owned-by;
 
-produces sub relation
-	relates producer
-	relates produced-by;
-
 process sub relation
 	relates source
 	relates destination;
@@ -71,8 +67,6 @@ employee sub role;
 employer sub role;
 owner sub role;
 owned-by sub role;
-producer sub role;
-produced-by sub role;
 source sub role;
 destination sub role;
 platform-has-environment sub role;
