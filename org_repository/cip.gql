@@ -1,0 +1,26 @@
+insert
+	#CIP
+	$marge isa platform, has name "Marge";
+	$cip isa platform, has name "CIP";
+	$cis isa organization, has name "CIS";
+	$aurora isa tool, has name "Aurora";
+	$sqoop isa tool, has name "Sqoop";
+	$c_ds1 isa dataset, has name "AccountPreference", has location "hdfs://insights.bose.com:8020/projects/marge/raw/AccountPreference", has description "Raw AccountPreference data from Marge DB.";
+	$c_ds2 isa dataset, has name "AccountPreference", has location "hdfs://insights.bose.com:8020/projects/marge/processed/AccountPreference", has description "Processed AccountPreference data.";
+	$c_ds3 isa dataset, has name "AccountPreset", has location "hdfs://insights.bose.com:8020/projects/marge/raw/AccountPreset", has description "Raw AccountPreference data from Marge DB.";
+	$c_ds4 isa dataset, has name "AccountPreference", has location "hdfs://insights.bose.com:8020/projects/marge/processed/AccountPreference", has description "Processed AccountPreference data.";
+	$marge_env isa environment, has name "AWS Marge";
+	$prod_env isa environment, has name "CIP AWS Prod";
+	$john isa person, has name "John DeRaismes";
+	$ed isa person, has name "Ed Kerrigan";
+
+	(owned-by: $cip, owner: $cis) isa ownership;
+	(owned-by: $marge, owner: $cis) isa ownership;
+	(owned-by: $c_ds1, owned-by: $c_ds2, owner: $john, owner: $ed) isa ownership;
+	(tool-has-environment: $aurora, environment-has-tool: $marge_env) isa environment-tool;
+	(tool-has-environment: $sqoop, environment-has-tool: $prod_env) isa environment-tool;
+	(environment-has-platform: $marge_env, platform-has-environment: $marge) isa platform-environment;
+	(environment-has-platform: $prod_env, platform-has-environment: $cip) isa platform-environment;
+	(source: $aurora, destination: $sqoop) isa process;
+	(source: $sqoop, destination: $c_ds1) isa process;
+	(source: $c_ds1, destination: $c_ds2) isa process;
