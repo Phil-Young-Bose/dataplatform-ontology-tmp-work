@@ -1,0 +1,56 @@
+insert
+
+# Entities
+
+avro_type sub entity
+	has name
+	has type;
+
+avro_record sub avro_type
+	has doc
+	has aliases
+	has namespace
+	plays record-has-field
+	plays type-has-field;
+
+avro_enum sub avro_type
+	has doc
+	has aliases
+	has symbols
+	plays record-has-field
+	plays type-has-field;
+
+
+avro_field sub entity
+	has name
+	has doc
+	has type
+	plays field-has-type
+	plays field-has-record;
+
+# Relations
+
+
+record-field sub relation
+	relates record-has-field
+	relates field-has-record;
+
+typeof sub relation
+	relates field-has-type
+	relates type-has-field;
+
+# Roles
+
+field-has-type sub role;
+type-has-field sub role;
+record-has-field sub role;
+field-has-record sub role;
+
+# Resources
+
+name sub resource datatype string;
+doc sub resource datatype string;
+aliases sub resource datatype string;
+namespace sub resource datatype string;
+type sub resource datatype string;
+symbols sub resource datatype string;
