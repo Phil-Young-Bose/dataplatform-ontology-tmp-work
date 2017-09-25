@@ -5,3 +5,4 @@ tmp/*
 
 **/dump.rdb
 **/appendonly.aof
+**/.DS_Store
