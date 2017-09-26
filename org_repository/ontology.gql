@@ -15,7 +15,8 @@ platform sub entity
 environment sub entity
 	has name
 	plays environment-has-platform
-	plays environment-has-tool;
+	plays environment-has-tool
+	plays environment-has-dataset;
 
 tool sub entity
 	has name
@@ -31,9 +32,12 @@ dataset sub entity
 	has format
 	has location
 	has url
+	has database
+	has table
 	plays owned-by
 	plays source
-	plays destination;
+	plays destination
+	plays dataset-has-environment;
 
 person sub entity
 	has name
@@ -50,6 +54,7 @@ ownership sub relation
 	relates owned-by;
 
 process sub relation
+	has name
 	relates source
 	relates destination;
 
@@ -61,8 +66,11 @@ environment-tool sub relation
 	relates environment-has-tool
 	relates tool-has-environment;
 
-#Roles 
+environment-dataset sub relation
+	relates environment-has-dataset
+	relates dataset-has-environment;
 
+#Roles 
 employee sub role;
 employer sub role;
 owner sub role;
@@ -73,6 +81,8 @@ platform-has-environment sub role;
 environment-has-platform sub role;
 tool-has-environment sub role;
 environment-has-tool sub role;
+dataset-has-environment sub role;
+environment-has-dataset sub role;
 
 #Resources
 name sub resource datatype string;
@@ -82,3 +92,17 @@ updated sub resource datatype string;
 format sub resource datatype string;
 location sub resource datatype string;
 url sub resource datatype string;
+database sub resource datatype string;
+table sub resource datatype string;
+
+
+#Rules
+
+#$R2 isa inference-rule,
+#when {
+#    (source: $s, destination: $d) isa Process;
+#    (source: $d, destination: $d2) isa Process;
+#},
+#then {
+#    (source: $s, destination: $d2) isa Process;
+#};

@@ -1,27 +1,351 @@
 insert
-	#CIP
-	$marge isa platform, has name "Marge";
-	$cip isa platform, has name "CIP";
-	$cis isa organization, has name "CIS";
-	$aurora isa tool, has name "Aurora";
-	$sqoop isa tool, has name "Sqoop";
-	$c_ds1 isa dataset, has name "AccountPreference", has location "hdfs://insights.bose.com:8020/projects/marge/raw/AccountPreference", has description "Raw AccountPreference data from Marge DB.";
-	$c_ds2 isa dataset, has name "AccountPreference", has location "hdfs://insights.bose.com:8020/projects/marge/processed/AccountPreference", has description "Processed AccountPreference data.";
-	$c_ds3 isa dataset, has name "AccountPreset", has location "hdfs://insights.bose.com:8020/projects/marge/raw/AccountPreset", has description "Raw AccountPreference data from Marge DB.";
-	$c_ds4 isa dataset, has name "AccountPreset", has location "hdfs://insights.bose.com:8020/projects/marge/processed/AccountPreset", has description "Processed AccountPreset data.";
-	$marge_env isa environment, has name "AWS Marge";
-	$prod_env isa environment, has name "CIP AWS Prod";
-	$john isa person, has name "John DeRaismes";
-	$ed isa person, has name "Ed Kerrigan";
 
-	(owned-by: $cip, owner: $cis) isa ownership;
-	(owned-by: $marge, owner: $cis) isa ownership;
-	(owned-by: $c_ds1, owned-by: $c_ds2, owned-by: $c_ds3, owned-by: $c_ds4, owner: $john, owner: $ed) isa ownership;
-	(tool-has-environment: $aurora, environment-has-tool: $marge_env) isa environment-tool;
-	(tool-has-environment: $sqoop, environment-has-tool: $prod_env) isa environment-tool;
-	(environment-has-platform: $marge_env, platform-has-environment: $marge) isa platform-environment;
-	(environment-has-platform: $prod_env, platform-has-environment: $cip) isa platform-environment;
-	(source: $aurora, destination: $sqoop) isa process;
-	(source: $sqoop, destination: $c_ds1, destination: $c_ds3) isa process;
-	(source: $c_ds1, destination: $c_ds2) isa process;
-	(source: $c_ds3, destination: $c_ds4) isa process;
+#Marge Database Tables
+$a isa dataset, 
+	has name "BoseAccountDB.AccountPreference", 
+	has database "BoseAccountDB", 
+	has table "AccountPreference";
+
+$b isa dataset, 
+	has name "StreamingDB.AccountPreset", 
+	has database "StreamingDB", 
+	has table "AccountPreset";
+
+$c isa dataset, 
+	has name "BoseAccountDB.Address", 
+	has database "BoseAccountDB", 
+	has table "Address";
+
+$d isa dataset, 
+	has name "BoseAccountDB.BoseAccount", 
+	has database "BoseAccountDB", 
+	has table "BoseAccount";
+
+$e isa dataset, 
+	has name "BoseAccountDB.Country", 
+	has database "BoseAccountDB", 
+	has table "County";
+
+$f isa dataset, 
+	has name "StreamingDB.DeviceMaster", 
+	has database "StreamingDB", 
+	has table "DeviceMaster";
+
+$g isa dataset, 
+	has name "StreamingDB.MySource", 
+	has database "StreamingDB", 
+	has table "MySource";
+
+$h isa dataset, 
+	has name "StreamingDB.MyStreamingDevice", 
+	has database "StreamingDB", 
+	has table "MyStreamingDevice";
+
+$i isa dataset, 
+	has name "StreamingDB.ProductMaster", 
+	has database "StreamingDB", 
+	has table "ProductMaster";
+
+$j isa dataset, 
+	has name "StreamingDB.SourceProvider", 
+	has database "StreamingDB", 
+	has table "SourceProvider";
+
+#Platforms
+$marge isa platform, has name "Marge";
+$cip isa platform, has name "CIP";
+
+#Organizations
+$cis isa organization, has name "CIS";
+
+#Tools
+$aurora isa tool, has name "Aurora";
+
+#IP UDC Datasets
+$udc_ds1 isa dataset, 
+	has name "dste.raw", 
+	has location "/projects/UDC/raw/cat=dste", 
+	has description "Raw dste from UDC.";
+
+$udc_ds2 isa dataset, 
+	has name "dste.processed", 
+	has location "/projects/UDC/processed/dste", 
+	has description "Processed dste data.";
+
+$udc_ds3 isa dataset, 
+	has name "event.raw", 
+	has location "/projects/UDC/raw/cat=e", 
+	has description "Raw event data from UDC.";
+
+$udc_ds4 isa dataset, 
+	has name "event.processed", 
+	has location "/projects/UDC/processed/event", 
+	has description "Processed event data.";
+
+$udc_ds5 isa dataset, 
+	has name "state_change.raw", 
+	has location "/projects/UDC/raw/cat=sc", 
+	has description "Raw state change data from UDC.";
+
+$udc_ds6 isa dataset, 
+	has name "state_change.processed", 
+	has location "/projects/UDC/processed/state_change", 
+	has description "Processed state change data.";
+
+$udc_ds7 isa dataset, 
+	has name "current_state.raw", 
+	has location "/projects/UDC/raw/current-state", 
+	has description "Raw current state data from UDC.";
+
+$udc_ds8 isa dataset, 
+	has name "current_state.processed", 
+	has location "/projects/UDC/processed/current_state", 
+	has description "Processed current state data.";
+
+$udc_ds9 isa dataset, 
+	has name "perf_current_state", 
+	has location "/projects/UDC/processed/perf_current_state", 
+	has description "Preferred current state data.";
+
+$udc_ds10 isa dataset, 
+	has name "sc_source", 
+	has location "/projects/UDC/processed/sc_source", 
+	has description "sc_source data.";
+
+$udc_ds11 isa dataset, 
+	has name "sc_source_n", 
+	has location "/projects/UDC/processed/sc_source_n", 
+	has description "sc_source_n data.";
+
+$udc_ds12 isa dataset, 
+	has name "sc_volume", 
+	has location "/projects/UDC/processed/sc_volume", 
+	has description "sc_volume data.";
+
+$udc_ds13 isa dataset, 
+	has name "sessionid_deviceid", 
+	has location "/projects/UDC/processed/sessionid_deviceid", 
+	has description "sessionid_deviceid data.";
+
+#IP Marge Datasets
+$c_ds1 isa dataset, 
+	has name "AccountPreference.Raw", 
+	has location "/projects/marge/raw/AccountPreference", 
+	has description "Raw AccountPreference Data from Marge.";
+
+$c_ds2 isa dataset, 
+	has name "AccountPreference.Processed", 
+	has location "/projects/marge/processed/AccountPreference", 
+	has description "Processed AccountPreference data.";
+
+$c_ds3 isa dataset, 
+	has name "AccountPreset.Raw", 
+	has location "/projects/marge/raw/AccountPreset", 
+	has description "Raw AccountPreference data from Marge DB.";
+
+$c_ds4 isa dataset, 
+	has name "AccountPreset.Processed", 
+	has location "/projects/marge/processed/AccountPreset", 
+	has description "Processed AccountPreset data.";
+
+$c_ds5 isa dataset, 
+	has name "Address.Raw", 
+	has location "/projects/marge/raw/Address", 
+	has description "Raw AccountPreset data.";
+
+$c_ds6 isa dataset, 
+	has name "Address.Processed", 
+	has location "/projects/marge/processed/Address", 
+	has description "Processed AccountPreset data.";
+
+$c_ds7 isa dataset, 
+	has name "BoseAccount.Raw", 
+	has location "/projects/marge/raw/BoseAccount", 
+	has description "Raw AccountPreset data.";
+
+$c_ds8 isa dataset, 
+	has name "BoseAccount.Processed", 
+	has location "/projects/marge/processed/BoseAccount", 
+	has description "Processed AccountPreset data.";
+
+$c_ds9 isa dataset, 
+	has name "County.Raw", 
+	has location "/projects/marge/raw/County", 
+	has description "Raw County data.";
+
+$c_ds10 isa dataset, 
+	has name "County.Processed", 
+	has location "/projects/marge/processed/County", 
+	has description "Processed County data.";
+
+$c_ds11 isa dataset, 
+	has name "DeviceMaster.Raw", 
+	has location "/projects/marge/raw/DeviceMaster", 
+	has description "Raw DeviceMaster data.";
+
+$c_ds12 isa dataset, 
+	has name "DeviceMaster.Processed", 
+	has location "/projects/marge/processed/DeviceMaster", 
+	has description "Processed DeviceMaster data.";
+
+$c_ds13 isa dataset, 
+	has name "MySource.Raw", 
+	has location "/projects/marge/raw/MySource", 
+	has description "Raw MySource data.";
+
+$c_ds14 isa dataset, 
+	has name "MySource.Processed", 
+	has location "/projects/marge/processed/MySource", 
+	has description "Processed MySource data.";
+
+$c_ds15 isa dataset, 
+	has name "MyStreamingDevice.Raw", 
+	has location "/projects/marge/raw/MyStreamingDevice", 
+	has description "Raw MyStreamingDevice data.";
+
+$c_ds16 isa dataset, 
+	has name "MyStreamingDevice.Processed", 
+	has location "/projects/marge/processed/MyStreamingDevice", 
+	has description "Processed MyStreamingDevice data.";
+
+$c_ds17 isa dataset, 
+	has name "ProductMaster.Raw", 
+	has location "/projects/marge/raw/ProductMaster", 
+	has description "Raw ProductMaster data.";
+
+$c_ds18 isa dataset, 
+	has name "ProductMaster.Processed", 
+	has location "/projects/marge/processed/ProductMaster", 
+	has description "Processed ProductMaster data.";
+
+$c_ds19 isa dataset, 
+	has name "SourceProvider.Raw", 
+	has location "/projects/marge/raw/SourceProvider", 
+	has description "Raw SourceProvider data.";
+
+$c_ds20 isa dataset, 
+	has name "SourceProvider.Processed", 
+	has location "/projects/marge/processed/SourceProvider", 
+	has description "Processed SourceProvider data.";
+
+$c_ds21 isa dataset, 
+	has name "StreamingClient.Raw", 
+	has location "/projects/marge/raw/StreamingClient", 
+	has description "Raw StreamingClient data.";
+
+$c_ds22 isa dataset, 
+	has name "StreamingClient.Processed", 
+	has location "/projects/marge/processed/StreamingClient", 
+	has description "Processed StreamingClient data.";
+
+$c_ds23 isa dataset, 
+	has name "boseaccount.Raw", 
+	has location "/projects/marge/raw/boseaccount", 
+	has description "Raw boseaccount data.";
+
+$c_ds24 isa dataset, 
+	has name "boseaccount.Processed", 
+	has location "/projects/marge/processed/boseaccount", 
+	has description "Processed boseaccount data.";
+
+#Environments
+$marge_env isa environment, has name "AWS Marge";
+$prod_env isa environment, has name "CIP AWS Prod";
+
+#Data Owners
+$john isa person, has name "John DeRaismes";
+$ed isa person, has name "Ed Kerrigan";
+
+(
+	source: $aurora, 
+	destination: $a, 
+	destination: $b,
+	destination: $c,
+	destination: $d,
+	destination: $e,
+	destination: $f,
+	destination: $g,
+	destination: $h,
+	destination: $i,
+	destination: $j
+) isa process; 
+
+
+#Ownership
+(owned-by: $cip, owner: $cis) isa ownership;
+(owned-by: $marge, owner: $cis) isa ownership;
+(owned-by: $c_ds1, owned-by: $c_ds2, owned-by: $c_ds3, owned-by: $c_ds4, owner: $john, owner: $ed) isa ownership;
+
+#Environment Tool
+(tool-has-environment: $aurora, environment-has-tool: $marge_env) isa environment-tool;
+
+#Platform Environment
+(environment-has-platform: $marge_env, platform-has-environment: $marge) isa platform-environment;
+(environment-has-platform: $prod_env, platform-has-environment: $cip) isa platform-environment;
+
+#Environment Dataset
+(
+	dataset-has-environment: $c_ds1,
+	dataset-has-environment: $c_ds2,
+	dataset-has-environment: $c_ds3,
+	dataset-has-environment: $c_ds4,
+	dataset-has-environment: $c_ds5,
+	dataset-has-environment: $c_ds6,
+	dataset-has-environment: $c_ds7,
+	dataset-has-environment: $c_ds8,
+	dataset-has-environment: $c_ds9,
+	dataset-has-environment: $c_ds10,
+	dataset-has-environment: $c_ds11,
+	dataset-has-environment: $c_ds12,
+	dataset-has-environment: $c_ds13,
+	dataset-has-environment: $c_ds14,
+	dataset-has-environment: $c_ds15,
+	dataset-has-environment: $c_ds16,
+	dataset-has-environment: $c_ds17,
+	dataset-has-environment: $c_ds18,
+	dataset-has-environment: $c_ds19,
+	dataset-has-environment: $c_ds20,
+	dataset-has-environment: $c_ds21,
+	dataset-has-environment: $c_ds22,
+	dataset-has-environment: $c_ds23,
+	dataset-has-environment: $c_ds24,
+	environment-has-dataset: $prod_env
+) isa environment-dataset;
+
+(
+	dataset-has-environment: $a,
+	dataset-has-environment: $b,
+	dataset-has-environment: $c,
+	dataset-has-environment: $d,
+	dataset-has-environment: $e,
+	dataset-has-environment: $f,
+	dataset-has-environment: $g,
+	dataset-has-environment: $h,
+	dataset-has-environment: $i,
+	dataset-has-environment: $j,
+	environment-has-dataset: $marge_env
+) isa environment-dataset;
+	
+(source: $a, destination: $c_ds1) isa process, has name "sqoop";
+(source: $b, destination: $c_ds3) isa process, has name "sqoop";
+(source: $c, destination: $c_ds5) isa process, has name "sqoop";
+(source: $d, destination: $c_ds7) isa process, has name "sqoop";
+(source: $e, destination: $c_ds9) isa process, has name "sqoop";
+(source: $f, destination: $c_ds11) isa process, has name "sqoop";
+(source: $g, destination: $c_ds13) isa process, has name "sqoop";
+(source: $h, destination: $c_ds15) isa process, has name "sqoop";
+(source: $i, destination: $c_ds17) isa process, has name "sqoop";
+(source: $j, destination: $c_ds19) isa process, has name "sqoop";
+
+(source: $c_ds1, destination: $c_ds2) isa process, has name "spark";
+(source: $c_ds3, destination: $c_ds4) isa process, has name "spark";
+(source: $c_ds5, destination: $c_ds6) isa process, has name "spark";
+(source: $c_ds7, destination: $c_ds8) isa process, has name "spark";
+(source: $c_ds9, destination: $c_ds10) isa process, has name "spark";
+(source: $c_ds11, destination: $c_ds12) isa process, has name "spark";
+(source: $c_ds13, destination: $c_ds14) isa process, has name "spark";
+(source: $c_ds15, destination: $c_ds16) isa process, has name "spark";
+(source: $c_ds17, destination: $c_ds18) isa process, has name "spark";
+(source: $c_ds19, destination: $c_ds20) isa process, has name "spark";
+(source: $c_ds21, destination: $c_ds22) isa process, has name "spark";
+(source: $c_ds23, destination: $c_ds24) isa process, has name "spark";
