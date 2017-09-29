@@ -1,0 +1,19 @@
+insert
+$a isa dataset, has name "d1";
+$b isa dataset, has name "d2";
+$c isa dataset, has name "d3";
+$d isa dataset, has name "d4";
+$e isa dataset, has name "d5";
+$f isa dataset, has name "d6";
+$g isa dataset, has name "d7";
+$h isa dataset, has name "d8";
+$i isa dataset, has name "d9";
+$j isa dataset, has name "d10";
+
+(source: $a, destination: $b) isa process;
+(source: $b, destination: $c) isa process;
+
+
+(source: $d, destination: $e, destination: $f, destination: $g) isa process;
+(source: $e, source: $f, source: $g, destination: $h) isa process;
+(source: $h, source: $i, destination: $j) isa process;
