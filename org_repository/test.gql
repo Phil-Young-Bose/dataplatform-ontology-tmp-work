@@ -9,11 +9,30 @@ $g isa dataset, has name "d7";
 $h isa dataset, has name "d8";
 $i isa dataset, has name "d9";
 $j isa dataset, has name "d10";
+$k isa dataset, has name "d11";
+$l isa dataset, has name "d12";
+$m isa dataset, has name "d13";
 
 (source: $a, destination: $b) isa process;
 (source: $b, destination: $c) isa process;
 
+(source: $k, destination: $l) isa process, has name "foo";
 
 (source: $d, destination: $e, destination: $f, destination: $g) isa process;
 (source: $e, source: $f, source: $g, destination: $h) isa process;
 (source: $h, source: $i, destination: $j) isa process;
+
+$a1 isa dataset, has name "a1";
+$a2 isa dataset, has name "a2";
+$a3 isa dataset, has name "a3";
+$a4 isa dataset, has name "a4";
+$a5 isa dataset, has name "a5";
+$a6 isa dataset, has name "a6";
+$a7 isa dataset, has name "a7";
+$a8 isa dataset, has name "a8";
+$a9 isa dataset, has name "a9";
+
+(source: $a1, destination: $a2, destination: $a3, destination: $a4) isa process;
+(source: $a2, source: $a3, source: $a4, destination: $a5) isa process;
+(source: $a5, destination: $a6, destination: $a7, destination: $a8) isa process;
+(source: $a6, source: $a7, source: $a8, destination: $a9) isa process;

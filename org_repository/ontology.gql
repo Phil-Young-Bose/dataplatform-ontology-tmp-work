@@ -22,7 +22,9 @@ tool sub entity
 	has name
 	plays source
 	plays destination
-	plays tool-has-environment;
+	plays tool-has-environment
+	plays ancestor
+	plays descendant;
 	
 dataset sub entity
 	has name
@@ -37,7 +39,9 @@ dataset sub entity
 	plays owned-by
 	plays source
 	plays destination
-	plays dataset-has-environment;
+	plays dataset-has-environment
+	plays ancestor
+	plays descendant;
 
 person sub entity
 	has name
@@ -70,6 +74,13 @@ environment-dataset sub relation
 	relates environment-has-dataset
 	relates dataset-has-environment;
 
+#lineage sub relation
+#	relates source
+#	relates destination;
+ancestry sub relation
+	relates ancestor
+	relates descendant;
+
 #Roles 
 employee sub role;
 employer sub role;
@@ -83,6 +94,8 @@ tool-has-environment sub role;
 environment-has-tool sub role;
 dataset-has-environment sub role;
 environment-has-dataset sub role;
+ancestor sub role;
+descendant sub role;
 
 #Resources
 name sub resource datatype string;
@@ -97,12 +110,24 @@ table sub resource datatype string;
 
 
 #Rules
-
 #$R2 isa inference-rule,
 #when {
-#    (source: $s, destination: $d) isa Process;
-#    (source: $d, destination: $d2) isa Process;
+#    (source: $s, destination: $d) isa process;
+#    (source: $d, destination: $d2) isa process;
 #},
 #then {
-#    (source: $s, destination: $d2) isa Process;
+#    (source: $s, destination: $d2) isa lineage;
 #};
+
+$ancestor isa inference-rule 
+when {
+(source: $s, destination: $d) isa process;
+} then {
+(ancestor: $s, descendant: $d) isa ancestry; };
+
+$transitive-ancestor isa inference-rule
+when {
+(ancestor: $a, descendant: $b) isa ancestry;
+(ancestor: $b, descendant: $c) isa ancestry; 
+} then {
+(ancestor: $a, descendant: $c) isa ancestry; };

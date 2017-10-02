@@ -1,0 +1,26 @@
+#match 
+#$x isa dataset, has name "d10"; 
+#(descendant: $x, ancestor: $y) isa ancestry; 
+#$p (source: $z, destination: $y) isa process; 
+#select $p;
+
+#match 
+#$x isa dataset, has name "d10"; 
+#(descendant: $x, ancestor: $y) isa ancestry; 
+#$p (source: $z, destination: $y) isa process; 
+#$p2 (source: $a, destination: $x) isa process; 
+#select $p, $p2;
+
+#match 
+#$x isa dataset, has name "d12"; 
+#(descendant: $x, ancestor: $y) isa ancestry; 
+#$p (source: $z, destination: $y) isa process; 
+#$p2 (source: $a, destination: $x) isa process; 
+#select $p, $p2;
+
+match 
+$x isa dataset, has name "d10"; 
+(descendant: $x, ancestor: $y) isa ancestry; 
+$p (source: $z, destination: $y) isa process; 
+$p2 (source: $a, destination: $x) isa process; 
+select $p, $p2;
