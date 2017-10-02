@@ -1,0 +1,19 @@
+#!/bin/sh
+
+# GOAL
+#   This script installs and runs grakn, for desktop development
+
+MY_PATH=$( cd $(dirname "$0") && pwd )    
+
+error_handler () {
+    RC=$?
+    echo "Error $RC, at $BASH_COMMAND, line ${BASH_LINENO[0]}"
+    exit $RC
+}
+trap error_handler ERR
+
+pip install -r ${MY_PATH}/requirements.txt &> /dev/null
+
+${MY_PATH}/setup_local_grakn.py
+
+
