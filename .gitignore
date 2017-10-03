@@ -2,6 +2,7 @@
 
 # Things that are created dynamically (e.g. downloads) go here
 tmp/*
+setup/tmp/*
 
 **/dump.rdb
 **/appendonly.aof

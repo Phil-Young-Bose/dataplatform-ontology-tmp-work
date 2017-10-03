@@ -1,0 +1,11 @@
+# This is the Python/Pip requirements file
+
+# NOTES
+#   Our Git repo naming convention is <GROUP>-<REPO_NAME>, but Python package names are
+#   illegal if they have hyphens. They can be installed, but not IMPORTed properly.
+#   To deal with this:
+#     - replace the hyphen with an underscore when naming the Python Package
+#     - specify the package name via "egg=" in the URL
+
+# This specifies the Git branch
+git+ssh://github.com/BoseCorp/dataplatform-pyutils.git@master#egg=dataplatform_pyutils
