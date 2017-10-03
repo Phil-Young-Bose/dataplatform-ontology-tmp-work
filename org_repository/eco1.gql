@@ -4,9 +4,12 @@
 #   organization -> person
 #   organization -> platform -> environment -> tool
 #
+# NOTES
 #   I thought it would be
 #   organization -> platform -> environment -> tool -> dataset (e.g. specific table, s3 bucket, HDFS file/directory)
 #   But I see dataset-environment in the cip example.
+#
+#   Can we renamed "owned-by" to "ownee" or "asset" or something else?
 
 insert
 	# Business Organization
