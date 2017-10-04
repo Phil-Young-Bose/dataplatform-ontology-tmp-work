@@ -2,8 +2,8 @@
 
 # The ontology is in ontology.gql. It's summarized here for convenience.
 #   organization -> person
-#   organization -> platform -> environment -> tool
-#
+#   organization -> platform -> environment -> tool -> dataset [subclass]
+#   
 # NOTES
 #   I thought it would be
 #   organization -> platform -> environment -> tool -> dataset (e.g. specific table, s3 bucket, HDFS file/directory)
@@ -12,6 +12,52 @@
 #   Can we renamed "owned-by" to "ownee" or "asset" or something else?
 
 insert
+
+	 ################################################################################
+
+	 tool-has-dataset sub roles;
+
+
+	 tool2 sub entity
+	   has name
+           plays source
+           plays destination
+           plays tool-has-environment
+           plays tool-has-dataset	   
+           plays ancestor
+	   plays descendant;
+
+	 dataset2 sub entity
+	   has name
+           has description	   
+           has uri
+           has documentation	   	   
+	   #
+           plays owned-by
+           plays source
+           plays destination
+           plays dataset-has-tool
+           plays ancestor
+           plays descendant;
+
+	tool-dataset sub relation
+          relates tool-has-dataset
+          relates dataset-has-tool;
+
+	dataset_hdfs sub entity	  
+           has format	   
+           has created
+           has updated;
+
+	dataset_hive sub entity	  
+           has format	   
+           has database
+           has table
+           has created
+           has updated;
+
+	################################################################################
+
 	# Business Organization
         $org_ssg isa organization,
 	  has name "SSG";
@@ -51,11 +97,11 @@ insert
 	 platform-has-environment: $eco1_platform_eco1) isa platform-environment;	
 
 	# Tools 
-        $eco1_tool_haproxy isa tool,
+        $eco1_tool_haproxy isa tool2,
 	  has name "HAProxy";	
-        $eco1_tool_whirlpool isa tool,
+        $eco1_tool_whirlpool isa tool2,
 	  has name "Whirlpool";
-        $eco1_tool_kafka isa tool,
+        $eco1_tool_kafka isa tool2,
 	  has name "Kafka 1";
 	# Related by Environment
         (tool-has-environment: $eco1_tool_haproxy,
@@ -64,25 +110,25 @@ insert
 	 environment-has-tool: $eco1_env_aws_useast_1b) isa environment-tool;
 
 	# Tools
-        $eco1_tool_kafka_mirror isa tool,
+        $eco1_tool_kafka_mirror isa tool2,
 	  has name "Kafka-Mirror";
 	# Related by Environment	
         (tool-has-environment: $eco1_tool_kafka_mirror,
 	 environment-has-tool: $eco1_env_aws_main) isa environment-tool;
 
 	# Tools
-        $eco1_tool_kafka2 isa tool,
+        $eco1_tool_kafka2 isa tool2,
 	  has name "Kafka 2";
 	# Related by Environment		
         (tool-has-environment: $eco1_tool_kafka2,
 	 environment-has-tool: $eco1_env_aws_prod_lg) isa environment-tool;
 
 	# Tools
-        $eco1_tool_nifi isa tool,
+        $eco1_tool_nifi isa tool2,
 	  has name "NiFi";
-        $eco1_tool_phoenix isa tool,
+        $eco1_tool_phoenix isa tool2,
 	  has name "Phoenix";
-        $eco1_tool_hive isa tool,
+        $eco1_tool_hive isa tool2,
 	  has name "Hive";
 	# Related by Environment		
         (tool-has-environment: $eco1_tool_nifi,
@@ -90,5 +136,8 @@ insert
 	 tool-has-environment: $eco1_tool_hive,
 	 environment-has-tool: $eco1_env_aws_prod_internal) isa environment-tool;
 	 
-
-
+        ################################################################################
+	
+	# Dataset
+	# Related by Environment
+	
