@@ -13,49 +13,6 @@
 
 insert
 
-	 ################################################################################
-
-	 tool-has-dataset sub roles;
-
-
-	 tool2 sub entity
-	   has name
-           plays source
-           plays destination
-           plays tool-has-environment
-           plays tool-has-dataset	   
-           plays ancestor
-	   plays descendant;
-
-	 dataset2 sub entity
-	   has name
-           has description	   
-           has uri
-           has documentation	   	   
-	   #
-           plays owned-by
-           plays source
-           plays destination
-           plays dataset-has-tool
-           plays ancestor
-           plays descendant;
-
-	tool-dataset sub relation
-          relates tool-has-dataset
-          relates dataset-has-tool;
-
-	dataset_hdfs sub entity	  
-           has format	   
-           has created
-           has updated;
-
-	dataset_hive sub entity	  
-           has format	   
-           has database
-           has table
-           has created
-           has updated;
-
 	################################################################################
 
 	# Business Organization
@@ -89,19 +46,28 @@ insert
 	  has name "AWS PROD <LG>";	
         $eco1_env_aws_prod_internal isa environment,
 	  has name "AWS DP <ProdInternal>";
+        $eco1_env_household isa environment,
+	  has name "Household";
 	# Related by Platform
 	(environment-has-platform: $eco1_env_aws_useast_1b,
          environment-has-platform: $eco1_env_aws_main,
          environment-has-platform: $eco1_env_aws_prod_lg,
          environment-has-platform: $eco1_env_aws_prod_internal,
-	 platform-has-environment: $eco1_platform_eco1) isa platform-environment;	
+	 platform-has-environment: $platform_eco1) isa platform-environment;	
+
+	# Tools
+	$eco1_tool_speaker isa tool,
+	  has name "Speaker";
+	# Related by Environment
+        (tool-has-environment: $eco1_tool_speaker,
+	 environment-has-tool: $eco1_env_household) isa environment-tool;
 
 	# Tools 
-        $eco1_tool_haproxy isa tool2,
+        $eco1_tool_haproxy isa tool,
 	  has name "HAProxy";	
-        $eco1_tool_whirlpool isa tool2,
+        $eco1_tool_whirlpool isa tool,
 	  has name "Whirlpool";
-        $eco1_tool_kafka isa tool2,
+        $eco1_tool_kafka isa tool,
 	  has name "Kafka 1";
 	# Related by Environment
         (tool-has-environment: $eco1_tool_haproxy,
@@ -110,34 +76,95 @@ insert
 	 environment-has-tool: $eco1_env_aws_useast_1b) isa environment-tool;
 
 	# Tools
-        $eco1_tool_kafka_mirror isa tool2,
+        $eco1_tool_kafka_mirror isa tool,
 	  has name "Kafka-Mirror";
 	# Related by Environment	
         (tool-has-environment: $eco1_tool_kafka_mirror,
 	 environment-has-tool: $eco1_env_aws_main) isa environment-tool;
 
 	# Tools
-        $eco1_tool_kafka2 isa tool2,
+        $eco1_tool_kafka2 isa tool,
 	  has name "Kafka 2";
 	# Related by Environment		
         (tool-has-environment: $eco1_tool_kafka2,
 	 environment-has-tool: $eco1_env_aws_prod_lg) isa environment-tool;
 
 	# Tools
-        $eco1_tool_nifi isa tool2,
+        $eco1_tool_nifi isa tool,
 	  has name "NiFi";
-        $eco1_tool_phoenix isa tool2,
+        $eco1_tool_pheonix isa tool,
 	  has name "Phoenix";
-        $eco1_tool_hive isa tool2,
+        $eco1_tool_mapreduce isa tool,
+	  has name "MapReduce";
+        $eco1_tool_bash isa tool,
+	  has name "Bash";
+        $eco1_tool_hive isa tool,
 	  has name "Hive";
+        $eco1_tool_s3 isa tool,
+	  has name "S3";
 	# Related by Environment		
         (tool-has-environment: $eco1_tool_nifi,
-	 tool-has-environment: $eco1_tool_phoenix,
+	 tool-has-environment: $eco1_tool_pheonix,
+	 tool-has-environment: $eco1_tool_mapreduce,
+	 tool-has-environment: $eco1_tool_bash,
 	 tool-has-environment: $eco1_tool_hive,
+	 tool-has-environment: $eco1_tool_s3,
 	 environment-has-tool: $eco1_env_aws_prod_internal) isa environment-tool;
 	 
         ################################################################################
 	
 	# Dataset
-	# Related by Environment
-	
+	$eco1_dataset_udc_speaker isa dataset, 
+          has name "UDC Speaker";
+	$eco1_dataset_udc_haproxy isa dataset, 
+          has name "UDC HAProxy";
+	$eco1_dataset_udc_whirlpool isa dataset, 
+          has name "UDC Whirlpool";
+	$eco1_dataset_udc_kafka isa dataset, 
+          has name "UDC Kafka 1";
+	$eco1_dataset_udc_nifi isa dataset, 
+          has name "UDC Nifi";
+	$eco1_dataset_udc_pheonix isa dataset, 
+          has name "UDC Pheonix";
+	$eco1_dataset_udc_hive isa dataset, 
+          has name "UDC Hive";
+	$eco1_dataset_udc_s3 isa dataset, 
+          has name "UDC S3";
+
+	# Related by Tool
+	(dataset-has-tool: $eco1_dataset_udc_speaker,
+         tool-has-dataset: $eco1_tool_speaker) isa tool-dataset;
+	(dataset-has-tool: $eco1_dataset_udc_haproxy,
+         tool-has-dataset: $eco1_tool_haproxy) isa tool-dataset;
+	(dataset-has-tool: $eco1_dataset_udc_whirlpool,
+         tool-has-dataset: $eco1_tool_whirlpool) isa tool-dataset;
+	(dataset-has-tool: $eco1_dataset_udc_kafka,
+         tool-has-dataset: $eco1_tool_kafka) isa tool-dataset;
+	(dataset-has-tool: $eco1_dataset_udc_nifi,
+         tool-has-dataset: $eco1_tool_nifi) isa tool-dataset;
+	(dataset-has-tool: $eco1_dataset_udc_pheonix,
+         tool-has-dataset: $eco1_tool_pheonix) isa tool-dataset;
+	(dataset-has-tool: $eco1_dataset_udc_hive,
+         tool-has-dataset: $eco1_tool_hive) isa tool-dataset;
+	(dataset-has-tool: $eco1_dataset_udc_s3,
+         tool-has-dataset: $eco1_tool_s3) isa tool-dataset;
+
+	# Related by Process
+	(source: $eco1_dataset_udc_speaker,
+         destination: $eco1_dataset_udc_haproxy,
+         executor: $eco1_tool_speaker) isa process;
+	(source: $eco1_dataset_udc_haproxy,
+         destination: $eco1_dataset_udc_whirlpool,
+         executor: $eco1_tool_haproxy) isa process;
+	(source: $eco1_dataset_udc_whirlpool,
+         destination: $eco1_dataset_udc_kafka,
+         executor: $eco1_tool_whirlpool) isa process;
+	(source: $eco1_dataset_udc_kafka,
+         destination: $eco1_dataset_udc_pheonix,
+         executor: $eco1_tool_nifi) isa process;
+	(source: $eco1_dataset_udc_pheonix,
+         destination: $eco1_dataset_udc_hive,
+         executor: $eco1_tool_mapreduce) isa process;
+	(source: $eco1_dataset_udc_hive,
+         destination: $eco1_dataset_udc_s3,
+         executor: $eco1_tool_bash) isa process;
