@@ -94,13 +94,13 @@ class SetupGrakn:
         try:
             if ( d["output"][0] == '3' ):
                 isUp=True
-        except NameError:
+        except Exception:
             pass
         if ( isUp == True ):
             cli.log.info("Grakn seems to be up")
             return 0
         else:            
-            cli.log.info("Grakn servics seem to be down")
+            cli.log.info("Grakn services seem to be down")
             return -1            
 
     def wait_for_grakn_to_start(self):
@@ -194,7 +194,8 @@ class SetupGrakn:
         #
         grakn_script_dir = os.path.join("/project", "org_repository")
         self.run_grakn_script( grakn_script_dir, "ontology.gql") 
-        self.run_grakn_script( grakn_script_dir, "test.gql" )
+        #self.run_grakn_script( grakn_script_dir, "test.gql" )
+        self.run_grakn_script( grakn_script_dir, "eco1.gql" )        
         self.run_grakn_script( grakn_script_dir, "test_query.gql" )
 
     def ensure_grakn_is_running(self):
